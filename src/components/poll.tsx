@@ -76,7 +76,7 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
   const max = Math.max(displayResults.yes, displayResults.no, 1);
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full">
+    <div className="flex flex-col items-center gap-4 w-full">
       <p className="text-2xl text-[#00ff00] font-bold">
         Thank you for voting!
       </p>
@@ -87,7 +87,7 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
           <img
             src="/images.avif"
             alt="The product"
-            className="w-[80vw] max-w-[600px] float-bounce"
+            className="w-[60vw] max-w-[400px] float-bounce"
           />
         </div>
       )}
@@ -95,12 +95,12 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
       {!showResults ? (
         <button
           onClick={() => setShowResults(true)}
-          className="retro-btn bg-[#8b00ff] text-white text-lg font-bold px-6 py-3 mt-4"
+          className="retro-btn bg-[#8b00ff] text-white text-lg font-bold px-6 py-3 mt-2"
         >
           See results
         </button>
       ) : (
-        <div className="w-full max-w-md space-y-4 mt-4">
+        <div className="w-full max-w-md space-y-3 mt-2">
           <ResultBar label="YES" count={displayResults.yes} max={max} color="#00ff00" />
           <ResultBar label="NO" count={displayResults.no} max={max} color="#ff0000" />
           <p className="text-center text-sm text-cyan-300">

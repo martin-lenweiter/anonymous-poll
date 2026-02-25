@@ -48,14 +48,14 @@ export function Chat() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col gap-3">
+    <div className="w-full max-w-md mx-auto flex flex-col gap-3 lg:max-w-none lg:h-full">
       <p className="text-sm text-center text-yellow-300" style={{ fontFamily: "Comic Sans MS, cursive" }}>
         Discuss the matter
       </p>
 
       <div
         ref={scrollRef}
-        className="h-48 overflow-y-auto bg-black/60 border-2 border-[#00ff00] rounded p-3 space-y-2 text-sm"
+        className="h-48 lg:flex-1 overflow-y-auto bg-black/60 border-2 border-[#00ff00] rounded p-3 space-y-2 text-sm"
       >
         {messages.length === 0 && (
           <p className="text-gray-500 italic text-center text-xs">Say something...</p>
