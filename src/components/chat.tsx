@@ -21,6 +21,7 @@ export function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
@@ -62,7 +63,8 @@ export function Chat() {
 
       <div
         ref={scrollRef}
-        className="h-48 overflow-y-auto bg-black/60 border-2 border-[#00ff00] rounded p-3 space-y-2 text-sm"
+        onClick={() => inputRef.current?.focus()}
+        className="h-48 overflow-y-auto bg-black/60 rounded rounded-b-none border-2 border-b-0 border-[#00ff00] p-3 space-y-2 text-sm cursor-text"
       >
         {messages.length === 0 && (
           <p className="text-gray-500 italic text-center text-xs">Say something...</p>
@@ -103,20 +105,21 @@ export function Chat() {
           e.preventDefault();
           sendMessage(input);
         }}
-        className="flex gap-2"
+        className="flex gap-0 border-2 border-[#00ff00] rounded rounded-t-none bg-black/60"
       >
         <input
+          ref={inputRef}
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type here..."
           maxLength={200}
-          className="flex-1 bg-black/60 border-2 border-[#00ff00] rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ffff] placeholder-gray-600"
+          className="flex-1 bg-transparent px-3 py-2 text-white text-sm outline-none placeholder-gray-600"
         />
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="retro-btn bg-[#00ff00] text-black font-bold px-4 py-2 text-sm"
+          className="bg-[#00ff00] text-black font-bold px-4 py-2 text-sm hover:brightness-110 disabled:opacity-50"
         >
           Send
         </button>
