@@ -55,12 +55,33 @@ export function Chat() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col gap-3 lg:max-w-none lg:h-full">
+    <div className="w-full max-w-md mx-auto flex flex-col gap-3">
       <p className="text-sm text-center text-yellow-300" style={{ fontFamily: "Comic Sans MS, cursive" }}>
         Discuss the matter
       </p>
 
-      {messages.length === 0 ? (
+      <div
+        ref={scrollRef}
+        className="h-48 overflow-y-auto bg-black/60 border-2 border-[#00ff00] rounded p-3 space-y-2 text-sm"
+      >
+        {messages.length === 0 && (
+          <p className="text-gray-500 italic text-center text-xs">Say something...</p>
+        )}
+        {messages.map((m, i) => (
+          <div key={i} className={m.role === "user" ? "text-cyan-300" : "text-[#00ff00]"}>
+            <span className="font-bold">{m.role === "user" ? "you" : "bot"}: </span>
+            {m.content}
+          </div>
+        ))}
+        {isLoading && (
+          <div className="text-[#00ff00]">
+            <span className="font-bold">bot: </span>
+            <span className="blink">...</span>
+          </div>
+        )}
+      </div>
+
+      {messages.length === 0 && (
         <div className="flex flex-wrap justify-center gap-2">
           {SUGGESTIONS.map((q) => (
             <button
@@ -74,54 +95,34 @@ export function Chat() {
             </button>
           ))}
         </div>
-      ) : (
-        <div
-          ref={scrollRef}
-          className="h-48 lg:flex-1 overflow-y-auto bg-black/40 rounded p-3 space-y-3 text-sm select-text"
-        >
-          {messages.map((m, i) => (
-            <div key={i} className={m.role === "user" ? "text-cyan-300/70 text-xs" : "text-[#00ff00]"}>
-              {m.role === "user" ? (
-                <span className="italic">{m.content}</span>
-              ) : (
-                m.content
-              )}
-            </div>
-          ))}
-          {isLoading && (
-            <div className="text-[#00ff00] blink">...</div>
-          )}
-        </div>
       )}
 
       {error && <p className="text-red-400 text-xs text-center">{error}</p>}
 
-      {messages.length > 0 && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendMessage(input);
-          }}
-          className="flex gap-2"
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage(input);
+        }}
+        className="flex gap-2"
+      >
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Type here..."
+          maxLength={200}
+          className="flex-1 bg-black/60 border-2 border-[#00ff00] rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ffff] placeholder-gray-600"
+          style={{ fontFamily: "Comic Sans MS, cursive" }}
+        />
+        <button
+          type="submit"
+          disabled={isLoading || !input.trim()}
+          className="retro-btn bg-[#00ff00] text-black font-bold px-4 py-2 text-sm"
         >
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type here..."
-            maxLength={200}
-            className="flex-1 bg-black/40 border border-gray-700 rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ff00] placeholder-gray-600"
-            style={{ fontFamily: "Comic Sans MS, cursive" }}
-          />
-          <button
-            type="submit"
-            disabled={isLoading || !input.trim()}
-            className="retro-btn bg-[#00ff00] text-black font-bold px-4 py-2 text-sm"
-          >
-            Send
-          </button>
-        </form>
-      )}
+          Send
+        </button>
+      </form>
     </div>
   );
 }
