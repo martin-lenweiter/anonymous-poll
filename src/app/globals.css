@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ===== RETRO POLL STYLES ===== */
+
+body {
+  background: #000080;
+  color: #ffffff;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='28' font-size='28'>👆</text></svg>"), auto;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Marquee animation */
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 12s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Blink animation */
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Rainbow text */
+.rainbow-text {
+  background: linear-gradient(
+    90deg,
+    #ff0000,
+    #ff7700,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #8b00ff,
+    #ff0000
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 3s linear infinite;
+}
+
+@keyframes rainbow {
+  0% {
+    background-position: 0% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Win95 outset button */
+.retro-btn {
+  border: 3px outset #c0c0c0;
+  box-shadow: 2px 2px 0 #000;
+  font-family: "Comic Sans MS", cursive;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.retro-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+.retro-btn:active {
+  border-style: inset;
+  box-shadow: 1px 1px 0 #000;
+  transform: scale(0.98);
+}
+
+.retro-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Result bar glow */
+.result-bar-glow {
+  animation: bar-pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes bar-pulse {
+  0% {
+    filter: brightness(1);
+  }
+  100% {
+    filter: brightness(1.4);
+  }
+}
+
+/* Image reveal animation */
+.image-reveal {
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.3) rotate(200deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    opacity: 1;
+  }
+}
+
+/* Float bounce for image */
+.float-bounce {
+  animation: floatBounce 2s ease-in-out infinite, hueRotate 6s linear infinite;
+}
+
+@keyframes floatBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes hueRotate {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* Neon glow box */
+.neon-glow {
+  box-shadow:
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 40px #00ffff,
+    0 0 80px #00ffff;
+}
+
+/* Star cursor trail (just the visual hint) */
+::selection {
+  background: #ff00ff;
+  color: #ffff00;
 }
