@@ -7,6 +7,14 @@ type Message = {
   content: string;
 };
 
+const SUGGESTIONS = [
+  "Does Celine even need one?",
+  "What color should we get?",
+  "Is this tax deductible?",
+  "What would her mom think?",
+  "Can we gift wrap it?",
+];
+
 export function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -18,13 +26,12 @@ export function Chat() {
     scrollRef.current?.scrollTo(0, scrollRef.current.scrollHeight);
   }, [messages]);
 
-  async function handleSend() {
-    const text = input.trim();
-    if (!text || isLoading) return;
+  async function sendMessage(text: string) {
+    if (!text.trim() || isLoading) return;
 
     setInput("");
     setError(null);
-    const newMessages: Message[] = [...messages, { role: "user", content: text }];
+    const newMessages: Message[] = [...messages, { role: "user", content: text.trim() }];
     setMessages(newMessages);
     setIsLoading(true);
 
@@ -53,53 +60,68 @@ export function Chat() {
         Discuss the matter
       </p>
 
-      <div
-        ref={scrollRef}
-        className="h-48 lg:flex-1 overflow-y-auto bg-black/60 border-2 border-[#00ff00] rounded p-3 space-y-2 text-sm"
-      >
-        {messages.length === 0 && (
-          <p className="text-gray-500 italic text-center text-xs">Say something...</p>
-        )}
-        {messages.map((m, i) => (
-          <div key={i} className={m.role === "user" ? "text-cyan-300" : "text-[#00ff00]"}>
-            <span className="font-bold">{m.role === "user" ? "you" : "bot"}: </span>
-            {m.content}
-          </div>
-        ))}
-        {isLoading && (
-          <div className="text-[#00ff00]">
-            <span className="font-bold">bot: </span>
-            <span className="blink">...</span>
-          </div>
-        )}
-      </div>
+      {messages.length === 0 ? (
+        <div className="flex flex-wrap justify-center gap-2">
+          {SUGGESTIONS.map((q) => (
+            <button
+              key={q}
+              onClick={() => sendMessage(q)}
+              disabled={isLoading}
+              className="text-xs bg-black/40 border border-[#00ff00]/40 text-[#00ff00] rounded-full px-3 py-1.5 hover:bg-[#00ff00]/10 hover:border-[#00ff00] transition-colors cursor-pointer"
+              style={{ fontFamily: "Comic Sans MS, cursive" }}
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <div
+          ref={scrollRef}
+          className="h-48 lg:flex-1 overflow-y-auto bg-black/40 rounded p-3 space-y-3 text-sm select-text"
+        >
+          {messages.map((m, i) => (
+            <div key={i} className={m.role === "user" ? "text-cyan-300/70 text-xs" : "text-[#00ff00]"}>
+              {m.role === "user" ? (
+                <span className="italic">{m.content}</span>
+              ) : (
+                m.content
+              )}
+            </div>
+          ))}
+          {isLoading && (
+            <div className="text-[#00ff00] blink">...</div>
+          )}
+        </div>
+      )}
 
       {error && <p className="text-red-400 text-xs text-center">{error}</p>}
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSend();
-        }}
-        className="flex gap-2"
-      >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type here..."
-          maxLength={200}
-          className="flex-1 bg-black/60 border-2 border-[#00ff00] rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ffff] placeholder-gray-600"
-          style={{ fontFamily: "Comic Sans MS, cursive" }}
-        />
-        <button
-          type="submit"
-          disabled={isLoading || !input.trim()}
-          className="retro-btn bg-[#00ff00] text-black font-bold px-4 py-2 text-sm"
+      {messages.length > 0 && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage(input);
+          }}
+          className="flex gap-2"
         >
-          Send
-        </button>
-      </form>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type here..."
+            maxLength={200}
+            className="flex-1 bg-black/40 border border-gray-700 rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ff00] placeholder-gray-600"
+            style={{ fontFamily: "Comic Sans MS, cursive" }}
+          />
+          <button
+            type="submit"
+            disabled={isLoading || !input.trim()}
+            className="retro-btn bg-[#00ff00] text-black font-bold px-4 py-2 text-sm"
+          >
+            Send
+          </button>
+        </form>
+      )}
     </div>
   );
 }
