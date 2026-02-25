@@ -10,12 +10,11 @@ export default async function Home() {
   return (
     <div className="min-h-screen bg-[#000080] text-white flex flex-col items-center justify-center px-4 py-12 gap-10">
       <div className="text-center">
-        <p className="text-lg sm:text-xl text-yellow-300 mb-2" style={{ fontFamily: "Comic Sans MS, cursive" }}>
+        <p className="text-lg sm:text-xl text-yellow-300 mb-2">
           Someone&apos;s in need...
         </p>
         <h1
           className="rainbow-text text-3xl sm:text-4xl md:text-5xl font-bold leading-tight"
-          style={{ fontFamily: "Comic Sans MS, cursive" }}
         >
           Should we buy Celine a dildo?
         </h1>

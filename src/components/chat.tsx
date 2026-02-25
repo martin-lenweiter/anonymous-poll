@@ -56,7 +56,7 @@ export function Chat() {
 
   return (
     <div className="w-full max-w-md mx-auto flex flex-col gap-3">
-      <p className="text-sm text-center text-yellow-300" style={{ fontFamily: "Comic Sans MS, cursive" }}>
+      <p className="text-sm text-center text-yellow-300">
         Discuss the matter
       </p>
 
@@ -89,7 +89,6 @@ export function Chat() {
               onClick={() => sendMessage(q)}
               disabled={isLoading}
               className="text-xs bg-black/40 border border-[#00ff00]/40 text-[#00ff00] rounded-full px-3 py-1.5 hover:bg-[#00ff00]/10 hover:border-[#00ff00] transition-colors cursor-pointer"
-              style={{ fontFamily: "Comic Sans MS, cursive" }}
             >
               {q}
             </button>
@@ -113,7 +112,6 @@ export function Chat() {
           placeholder="Type here..."
           maxLength={200}
           className="flex-1 bg-black/60 border-2 border-[#00ff00] rounded px-3 py-2 text-white text-sm outline-none focus:border-[#00ffff] placeholder-gray-600"
-          style={{ fontFamily: "Comic Sans MS, cursive" }}
         />
         <button
           type="submit"

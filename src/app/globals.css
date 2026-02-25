@@ -5,7 +5,7 @@
 body {
   background: #000080;
   color: #ffffff;
-  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-family: inherit;
   cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='28' font-size='28'>👆</text></svg>"), auto;
 }
 
@@ -56,7 +56,7 @@ body {
 .retro-btn {
   border: 3px outset #c0c0c0;
   box-shadow: 2px 2px 0 #000;
-  font-family: "Comic Sans MS", cursive;
+  font-family: inherit;
   cursor: pointer;
   transition: all 0.1s;
 }
