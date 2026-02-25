@@ -22,6 +22,7 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
     return getCookie("voted") === "true";
   });
   const [showImage, setShowImage] = useState(false);
+  const [showResults, setShowResults] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
@@ -49,30 +50,20 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
   if (!hasVoted) {
     return (
       <div className="flex flex-col items-center gap-6">
-        <p className="text-xl text-yellow-300" style={{ fontFamily: "Comic Sans MS, cursive" }}>
-          Cast your anonymous vote below:
-        </p>
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-4 w-full sm:w-auto px-4 sm:px-0">
           <button
             onClick={() => handleVote("yes")}
             disabled={isPending}
-            className="retro-btn bg-[#00ff00] text-black text-2xl font-bold px-8 py-4 min-w-[160px]"
+            className="retro-btn bg-[#00ff00] text-black text-2xl font-bold px-8 py-4 w-full sm:w-auto min-w-[160px]"
           >
             ✅ YES
           </button>
           <button
             onClick={() => handleVote("no")}
             disabled={isPending}
-            className="retro-btn bg-[#ff0000] text-white text-2xl font-bold px-8 py-4 min-w-[160px]"
+            className="retro-btn bg-[#ff0000] text-white text-2xl font-bold px-8 py-4 w-full sm:w-auto min-w-[160px]"
           >
             ❌ NO
-          </button>
-          <button
-            onClick={() => handleVote("maybe")}
-            disabled={isPending}
-            className="retro-btn bg-[#ffff00] text-black text-2xl font-bold px-8 py-4 min-w-[160px]"
-          >
-            🤔 MAYBE
           </button>
         </div>
         {isPending && (
@@ -82,37 +73,39 @@ export function Poll({ initialResults }: { initialResults: PollResults }) {
     );
   }
 
-  const max = Math.max(displayResults.yes, displayResults.no, displayResults.maybe, 1);
+  const max = Math.max(displayResults.yes, displayResults.no, 1);
 
   return (
-    <div className="flex flex-col items-center gap-6 w-full max-w-xl">
-      <p className="text-2xl text-[#00ff00] font-bold blink">
-        🗳️ RESULTS ARE IN! 🗳️
-      </p>
-
-      <div className="w-full space-y-4">
-        <ResultBar label="✅ YES" count={displayResults.yes} max={max} color="#00ff00" />
-        <ResultBar label="❌ NO" count={displayResults.no} max={max} color="#ff0000" />
-        <ResultBar label="🤔 MAYBE" count={displayResults.maybe} max={max} color="#ffff00" />
-      </div>
-
-      <p className="text-lg text-cyan-300">
-        Total votes: <span className="font-bold text-white">{displayResults.total}</span>
+    <div className="flex flex-col items-center gap-6 w-full">
+      <p className="text-2xl text-[#00ff00] font-bold">
+        Thank you for voting!
       </p>
 
       {showImage && (
-        <div className="mt-4 flex flex-col items-center gap-4">
-          <p className="text-xl text-[#ff69b4] font-bold rainbow-text">
-            🎁 THE PRODUCT IN QUESTION: 🎁
+        <div className="image-reveal neon-glow rounded-lg overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images.avif"
+            alt="The product"
+            className="w-[80vw] max-w-[600px] float-bounce"
+          />
+        </div>
+      )}
+
+      {!showResults ? (
+        <button
+          onClick={() => setShowResults(true)}
+          className="retro-btn bg-[#8b00ff] text-white text-lg font-bold px-6 py-3 mt-4"
+        >
+          See results
+        </button>
+      ) : (
+        <div className="w-full max-w-md space-y-4 mt-4">
+          <ResultBar label="YES" count={displayResults.yes} max={max} color="#00ff00" />
+          <ResultBar label="NO" count={displayResults.no} max={max} color="#ff0000" />
+          <p className="text-center text-sm text-cyan-300">
+            {displayResults.total} votes
           </p>
-          <div className="image-reveal neon-glow rounded-lg overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images.avif"
-              alt="The product"
-              className="max-w-[300px] w-full float-bounce"
-            />
-          </div>
         </div>
       )}
     </div>
